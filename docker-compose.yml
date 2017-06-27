@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  elasticsearch:
+    build: ./
+
+  filebeat:
+    build: ../filebeat
+    volumes:
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /mnt/docker:/mnt/data:rw
+    depends_on:
+      - logstash
+
+  logstash:
+    build: ../logstash
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build: ../kibana
+    depends_on:
+      - elasticsearch
+
+  postgres:
+    build: ../postgres
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./postgres/conf.d:/pgdata/conf.d
+      - /mnt/docker:/pgdata/pg_log
+
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  esnet:
+    driver: bridge
