@@ -5,7 +5,7 @@ services:
     build: ./
 
   filebeat:
-    build: ../filebeat
+    build: ./filebeat
     volumes:
       - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - /mnt/docker:/mnt/data:rw
@@ -13,19 +13,19 @@ services:
       - logstash
 
   logstash:
-    build: ../logstash
+    build: ./logstash
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
       - elasticsearch
 
   kibana:
-    build: ../kibana
+    build: ./kibana
     depends_on:
       - elasticsearch
 
   postgres:
-    build: ../postgres
+    build: ./postgres
     volumes:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/conf.d:/pgdata/conf.d
