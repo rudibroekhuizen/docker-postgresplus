@@ -2,20 +2,39 @@ version: '3'
 
 services:
   elasticsearch:
+    container_name: elasticsearch
     build: ./
+    command: elasticsearch -Expack.security.enabled=false -Expack.monitoring.enabled=false -Expack.graph.enabled=false -Expack.watcher.enabled=false 
+    ports:
+      - 9200:9200
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - es-net
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
   filebeat:
     build: ./filebeat
     volumes:
       - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - /mnt/docker:/mnt/data
+      - pglogdata:/mnt/data
     depends_on:
       - logstash
 
   logstash:
     build: ./logstash
     volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - es-net
     depends_on:
       - elasticsearch
 
@@ -27,14 +46,16 @@ services:
   postgres:
     build: ./postgres
     volumes:
+      - pgdata:/pgdata
+      - pglogdata:/tmp
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./postgres/conf.d:/pgdata/conf.d
-      - /mnt/docker:/pgdata/pg_log
+      - ./postgres/conf.d:/conf.d
 
 volumes:
-  esdata1:
-    driver: local
+  esdata:
+  pglogdata:
+  pgdata:
 
 networks:
-  esnet:
+  es-net:
     driver: bridge
