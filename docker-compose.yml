@@ -31,8 +31,8 @@ services:
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
-    ports:
-      - "5000:5000"
+    #ports:
+    #  - "5000:5000"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -43,6 +43,18 @@ services:
   kibana:
     container_name: kibana
     build: ./kibana
+    #volumes:
+    #  - ./kibana/.kibana.yml:/usr/share/kibana/config/kibana.yml
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      XPACK_GRAPH_ENABLED: "false"
+      XPACK_MONITORING_ENABLED: "false"
+      XPACK_SECURITY_ENABLED: "false"
+      XPACK_REPORTING_ENABLED: "false"
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
     depends_on:
       - elasticsearch
 
