@@ -21,7 +21,7 @@ services:
     build: ./filebeat
     volumes:
       - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - pglogdata:/mnt/data
+      - /docker/pglogdata:/mnt/data
     depends_on:
       - logstash
 
@@ -62,15 +62,13 @@ services:
     container_name: postgres
     build: ./postgres
     volumes:
-      - pgdata:/pgdata
-      - pglogdata:/tmp
+      - /docker/pgdata:/pgdata
+      - /docker/pglogdata:/tmp
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/conf.d:/conf.d
 
 volumes:
   esdata:
-  pglogdata:
-  pgdata:
 
 networks:
   esnet:
