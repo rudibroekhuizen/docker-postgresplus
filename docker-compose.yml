@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  elasticsearch:
+    extends:
+      file: ./elasticsearch/docker-compose.yml
+      service: elasticsearch
+
+  filebeat:
+    extends:
+      file: ./filebeat/docker-compose.yml
+      service: filebeat
+    volumes:
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - pglog:/mnt/data:rw
+    depends_on:
+      - logstash
+
+  logstash:
+    extends:
+      file: ./logstash/docker-compose.yml
+      service: logstash
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    extends:
+      file: ./kibana/docker-compose.yml
+      service: kibana
+    depends_on:
+      - elasticsearch
+
+  postgres:
+    extends:
+      file: ./postgres/docker-compose.yml
+      service: master
+    volumes:
+      - pglog:/tmp
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./postgres/conf.d:/conf.d
+
+volumes:
+  pglog:
+  esdata1:
+    driver: local
+
+networks:
+  esnet:
+    driver: bridge

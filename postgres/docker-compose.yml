@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  master:
+    build: ./
+    volumes:
+      - /docker/pgdata:/pgdata
+    ports:
+        - "15432:5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - PGDATA=/pgdata

@@ -1,0 +1,9 @@
+filebeat: 
+  prospectors: 
+    - input_type: log 
+      paths: 
+        - '/mnt/data/*.log'
+      document_type: pg_log 
+
+output.logstash:
+   hosts: ['logstash:5044']

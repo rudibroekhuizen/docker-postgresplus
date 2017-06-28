@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  pgadmin:
+    build: ./
+    volumes:
+      - "~/.pgadmin:/home/pgadmin"
+    ports:
+      - 5050:5050

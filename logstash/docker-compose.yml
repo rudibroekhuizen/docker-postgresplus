@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  logstash:
+    build: ./
+    volumes:
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - esnet
+    #depends_on:
+    #  - elasticsearch
+      
+networks:
+  esnet:
+    driver: bridge
