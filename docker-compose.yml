@@ -8,15 +8,16 @@ services:
     ports:
       - 9200:9200
     volumes:
-      - es-data:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
     networks:
-      - es-net
+      - esnet
     cap_add:
       - IPC_LOCK
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
   filebeat:
+    container_name: filebeat
     build: ./filebeat
     volumes:
       - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
@@ -25,6 +26,7 @@ services:
       - logstash
 
   logstash:
+    container_name: logstash
     build: ./logstash
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
@@ -34,16 +36,18 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
-      - es-net
+      - esnet
     depends_on:
       - elasticsearch
 
   kibana:
+    container_name: kibana
     build: ./kibana
     depends_on:
       - elasticsearch
 
   postgres:
+    container_name: postgres
     build: ./postgres
     volumes:
       - pgdata:/pgdata
@@ -57,5 +61,5 @@ volumes:
   pgdata:
 
 networks:
-  es-net:
+  esnet:
     driver: bridge
