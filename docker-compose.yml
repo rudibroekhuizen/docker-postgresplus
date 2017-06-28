@@ -1,9 +1,9 @@
-version: '3'
+version: '2'
 
 services:
   elasticsearch:
     container_name: elasticsearch
-    build: ./
+    build: ./elasticsearch
     command: elasticsearch -Expack.security.enabled=false -Expack.monitoring.enabled=false -Expack.graph.enabled=false -Expack.watcher.enabled=false 
     ports:
       - 9200:9200
