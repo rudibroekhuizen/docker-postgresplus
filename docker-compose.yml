@@ -32,7 +32,13 @@ services:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/conf.d:/conf.d
 
+  pgadmin:
+    extends:
+      file: ./pgadmin/docker-compose.yml
+      service: pgadmin
+
 volumes:
+  pgadmin:
   pglog:
   esdata1:
     driver: local
