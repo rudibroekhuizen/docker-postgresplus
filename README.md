@@ -2,8 +2,7 @@
 PostgreSQL with Kibana dashboard
 
 1. Run pgbench
-2. Refresh index fields
-3. Import dashboard
+2. Import dashboard
 
 psql> CREATE DATABASE pgbenchdb;
 
