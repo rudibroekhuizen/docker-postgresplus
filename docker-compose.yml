@@ -6,22 +6,13 @@ services:
       file: ./elasticsearch/docker-compose.yml
       service: elasticsearch
 
-  filebeat:
-    extends:
-      file: ./filebeat/docker-compose.yml
-      service: filebeat
-    volumes:
-      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - pglog:/mnt/data:rw
-    depends_on:
-      - logstash
-
   logstash:
     extends:
       file: ./logstash/docker-compose.yml
       service: logstash
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - pglog:/mnt/data:rw
     depends_on:
       - elasticsearch
 
