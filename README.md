@@ -1,5 +1,13 @@
 # docker-postgresplus
-PostgreSQL with Kibana dashboard
+
+
+## Overview
+PostgreSQL playground running on Docker with logs presented in Kibana dashboard and Pgadmin webinterface.
+
+## Setup
+Install Docker. Clone this repo to your local machine. Run docker-compose: 
+
+     docker-compose up
 
 1. Run pgbench
 2. Import dashboard
@@ -14,4 +22,4 @@ pgbench> pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
 
 ### Remove everything (including volumes)
-docker-compose down -v --remove-orphans --rmi all
+     docker-compose down -v --remove-orphans --rmi all
