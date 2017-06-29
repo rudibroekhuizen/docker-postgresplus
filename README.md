@@ -9,19 +9,19 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 
      docker-compose up
 
-## Import dashboard
+
 To make sure all fields exist prior to importing the Kibana dashboard, run pgbench first.
 
-1. Run pgbench
-2. Import dashboard
+### Create pgbench database (psql)
 
-### Pgbench
+     CREATE DATABASE pgbenchdb;
 
-psql> CREATE DATABASE pgbenchdb;
+### Run pgbench
 
-pgbench> pgbench -i -s 50 pgbenchdb
+     pgbench -i -s 50 pgbenchdb
+     pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
-pgbench> pgbench -c 10 -j 2 -t 1000 pgbenchdb
+## Import dashboard
 
 
 ### Remove everything (including volumes)
