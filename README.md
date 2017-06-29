@@ -21,7 +21,7 @@ To make sure all fields exist prior to importing the Kibana dashboard, run pgben
      pgbench -i -s 50 pgbenchdb
      pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
-## Import dashboard
+### Import dashboard
 
 
 ### Remove everything (including volumes)
