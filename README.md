@@ -10,5 +10,5 @@ pgbench> pgbench -i -s 50 pgbenchdb
 
 pgbench> pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
-## Remove everyting (including volumes)
+### Remove everything (including volumes)
 docker-compose down -v --remove-orphans --rmi all
