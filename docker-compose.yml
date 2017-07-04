@@ -38,6 +38,7 @@ services:
       service: pgadmin
 
 volumes:
+  pgdata:
   pgadmin:
   pglog:
   esdata:
