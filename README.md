@@ -10,7 +10,22 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
      docker-compose up
 
 
-To make sure all fields exist prior to importing the Kibana dashboard, run pgbench first.
+### Connect to Postgres container
+
+     docker exec -it dockerpostgresplus_postgres_1 sh
+     sudo -s
+
+### Download and unzip test database (in the container)
+
+     wget https://s3.amazonaws.com/assets.datacamp.com/course/sql/dvdrental.zip; unzip dvdrental.zip
+
+### Create database (psql)
+
+     CREATE DATABASE dvdrental;
+
+### Load database using pg_restore
+
+     pg_restore -U postgres -d dvdrental C:\temp\dvdrental.tar
 
 ### Create pgbench database (psql)
 
@@ -22,7 +37,9 @@ To make sure all fields exist prior to importing the Kibana dashboard, run pgben
      pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
 ### Import dashboard
+To make sure all fields exist prior to importing the Kibana dashboard, run pgbench first.
 
 
-### Remove everything (including volumes)
+### Remove containers plus volumes
      docker-compose down -v --remove-orphans --rmi all
+
