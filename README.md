@@ -13,7 +13,6 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 ### Connect to Postgres container
 
      docker exec -it dockerpostgresplus_postgres_1 sh
-     sudo -s
 
 ### Download and unzip test database (in the container)
 
@@ -21,11 +20,14 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 
 ### Create database (psql)
 
+     su postgres
+     psql
      CREATE DATABASE dvdrental;
+     exit
 
 ### Load database using pg_restore
 
-     pg_restore -U postgres -d dvdrental C:\temp\dvdrental.tar
+     pg_restore -U postgres -d dvdrental dvdrental.tar
 
 ### Create pgbench database (psql)
 
