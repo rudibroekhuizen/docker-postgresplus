@@ -17,7 +17,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
 volumes:
-  esdata1:
+  esdata:
     driver: local
 
 networks:
