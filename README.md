@@ -46,5 +46,5 @@ To make sure all fields exist prior to importing the Kibana dashboard, run pgben
      docker-compose down -v --remove-orphans --rmi all
 
 ### Useful commands
-# Check CPU consumption
-docker stats $(docker inspect -f "{{ .Name }}" $(docker ps -q))
+     # Check CPU consumption
+     docker stats $(docker inspect -f "{{ .Name }}" $(docker ps -q))
