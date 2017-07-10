@@ -34,6 +34,10 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 
      CREATE DATABASE pgbenchdb;
 
+### Run 1000 queries
+     yes "select * from public.film_actor;" | head -n 1000 | parallel "psql -U postgres -d dvdrental -c {1}"
+
+
 ### Run pgbench
 
      pgbench -i -s 50 pgbenchdb
