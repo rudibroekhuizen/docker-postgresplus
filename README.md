@@ -11,35 +11,26 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 
 
 ### Connect to Postgres container
-
      docker exec -it dockerpostgresplus_postgres_1 sh
      sudo -s
 
 ### Download and unzip test database (in the container)
-
      wget https://s3.amazonaws.com/assets.datacamp.com/course/sql/dvdrental.zip; unzip dvdrental.zip
 
 ### Create database (psql)
-
      su postgres
      psql
      CREATE DATABASE dvdrental;
      exit
 
 ### Load database using pg_restore
-
      pg_restore -U postgres -d dvdrental dvdrental.tar
-
-### Create pgbench database (psql)
-
-     CREATE DATABASE pgbenchdb;
 
 ### Run 1000 queries
      yes "select * from public.film_actor;" | head -n 1000 | parallel "psql -U postgres -d dvdrental -c {1}"
 
-
-### Run pgbench
-
+## Pgbench
+     psql> CREATE DATABASE pgbenchdb;
      pgbench -i -s 50 pgbenchdb
      pgbench -c 10 -j 2 -t 1000 pgbenchdb
 
