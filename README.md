@@ -13,6 +13,7 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 ### Connect to Postgres container
 
      docker exec -it dockerpostgresplus_postgres_1 sh
+     sudo -s
 
 ### Download and unzip test database (in the container)
 
