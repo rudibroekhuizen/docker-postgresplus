@@ -45,3 +45,4 @@ To make sure all fields exist prior to importing the Kibana dashboard, run pgben
 ### Remove containers plus volumes
      docker-compose down -v --remove-orphans --rmi all
 
+### Useful commands
