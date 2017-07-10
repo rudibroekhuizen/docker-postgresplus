@@ -42,10 +42,10 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 To make sure all fields exist prior to importing the Kibana dashboard, run pgbench first.
 
 
-### Remove containers plus volumes
-     docker-compose down -v --remove-orphans --rmi all
-
 ### Useful commands
 ```bash
 # Check CPU consumption
 $ docker stats $(docker inspect -f "{{ .Name }}" $(docker ps -q))
+
+# Remove containers plus volumes
+$ docker-compose down -v --remove-orphans --rmi all
