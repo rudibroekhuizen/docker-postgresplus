@@ -26,14 +26,14 @@ Database, username and password: postgres
 ### Create database (psql)
      su postgres
      psql
-     CREATE DATABASE dvdrental;
+     CREATE DATABASE sakila;
      exit
 
 ### Load database using pg_restore
-     pg_restore -U postgres -d dvdrental dvdrental.tar
+     pg_restore -U postgres -d sakila dvdrental.tar
 
 ### Run 1000 queries
-     yes "select * from public.film_actor;" | head -n 1000 | parallel "psql -U postgres -d dvdrental -c {1}"
+     yes "select * from public.film_actor;" | head -n 1000 | parallel "psql -U postgres -d sakila -c {1}"
 
 ## Pgbench
      psql> CREATE DATABASE pgbenchdb;
