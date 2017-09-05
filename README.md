@@ -6,13 +6,15 @@ PostgreSQL playground running on Docker with logs presented in Kibana dashboard 
 
 ## Usage
 Install Docker. Clone this repo to your local machine. Run docker-compose: 
-
-     docker-compose up
+```bash
+docker-compose up
+```
 
 ### Open pgAdmin webinterface
 ```bash
 http://localhost:5050
 ```
+Database, username and password: postgres
 
 ### Connect to Postgres container
      docker exec -it dockerpostgresplus_postgres_1 sh
