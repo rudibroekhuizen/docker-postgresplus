@@ -9,6 +9,10 @@ Install Docker. Clone this repo to your local machine. Run docker-compose:
 
      docker-compose up
 
+### Open pgAdmin webinterface
+```bash
+http://localhost:5050
+```
 
 ### Connect to Postgres container
      docker exec -it dockerpostgresplus_postgres_1 sh
