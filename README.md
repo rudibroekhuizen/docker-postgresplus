@@ -54,3 +54,8 @@ $ docker-compose down -v --remove-orphans --rmi all
 ```
 
 ## FAQ
+
+
+
+![postgres](postgres_1.png?raw=true)
+![postgres](postgres_2.png?raw=true)
