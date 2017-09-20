@@ -18,7 +18,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     transaction_id bigint,
     error_severity text,
     sql_state_code text,
-    message text,
+    log_line text,
     detail text,
     hint text,
     internal_query text,
