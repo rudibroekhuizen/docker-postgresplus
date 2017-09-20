@@ -3,4 +3,4 @@ FROM docker.elastic.co/logstash/logstash:5.5.2
 
 # Add your logstash plugins setup here
 #RUN logstash-plugin install logstash-filter-csv
-RUN logstash-plugin install logstash-filter-multiline
+#RUN logstash-plugin install logstash-filter-multiline
