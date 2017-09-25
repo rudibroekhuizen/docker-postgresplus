@@ -31,6 +31,7 @@ services:
       - pglog:/tmp
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/conf.d:/conf.d
+      - ./postgres/scripts:/scripts
 
   pgadmin:
     extends:
