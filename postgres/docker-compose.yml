@@ -13,6 +13,11 @@ services:
       - PGDATA=/pgdata
       - REPLICATION_USER=replicator
 #      - REPLICATION_PASSWORD=
+    networks:
+      - postgres
 
 volumes:
   pgdata:
+
+networks:
+  postgres:
