@@ -6,9 +6,9 @@ services:
     volumes:
       - pgdata:/pgdata
       - pglog:/tmp
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./postgres/conf.d:/conf.d
-      - ./postgres/scripts:/scripts
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./conf.d:/conf.d
+      - ./scripts:/scripts
 #    ports:
 #        - "5432:5432"
     environment:
