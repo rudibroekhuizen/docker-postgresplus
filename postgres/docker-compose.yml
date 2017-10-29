@@ -5,6 +5,10 @@ services:
     build: ./
     volumes:
       - pgdata:/pgdata
+      - pglog:/tmp
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./postgres/conf.d:/conf.d
+      - ./postgres/scripts:/scripts
 #    ports:
 #        - "5432:5432"
     environment:
