@@ -40,5 +40,6 @@ volumes:
   esdata:
 
 networks:
+  postgres:
   esnet:
     driver: bridge
