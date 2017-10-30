@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  master:
+  postgres:
     build: ./
     volumes:
       - pgdata:/pgdata
@@ -17,11 +17,5 @@ services:
       - PGDATA=/pgdata
       - REPLICATION_USER=replicator
 #      - REPLICATION_PASSWORD=
-#    networks:
-#      - postgres
-
-volumes:
-  pgdata:
-
-#    networks:
-#      postgres:
+    networks:
+      - pgnet
