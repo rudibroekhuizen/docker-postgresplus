@@ -7,6 +7,5 @@ services:
       - "pgadmin:/home/pgadmin"
     ports:
       - 5050:5050
-
-volumes:
-  pgadmin:
+    networks:
+      - pgnet
