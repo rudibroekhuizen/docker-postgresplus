@@ -3,6 +3,7 @@
 pg_basebackup \
   --host=127.0.0.1 \
   --username=$REPLICATION_USER \
+  --write-recovery-conf \
   --pgdata=/tmp/backup \
   --format=tar \
   --progress \
@@ -18,6 +19,7 @@ pg_basebackup \
 #pg_basebackup \
 #  --host=127.0.0.1 \
 #  --username=$REPLICATION_USER \
+#  --write-recovery-conf \
 #  --pgdata=/tmp/backup \
 #  --progress \
 #  --xlog-method=stream
