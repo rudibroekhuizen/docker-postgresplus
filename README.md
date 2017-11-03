@@ -34,6 +34,9 @@ Database, username and password: postgres
 ### Load database using pg_restore
      pg_restore -U postgres -d sakila dvdrental.tar
 
+### Collect logs
+     docker-compose exec postgres bash /scripts/pglog.sh
+
 ### Run 1000 queries
      yes "select * from public.film_actor;" | head -n 1000 | parallel "psql -U postgres -d sakila -c {1}"
 
