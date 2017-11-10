@@ -9,8 +9,7 @@ yes "psql postgresql://analytics:postgres@primary/postgres -t -f /scripts/pglog.
 
 
 # Stats local
-#yes "sudo -u postgres psql -t -f /scripts/pgstat.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60 &
+yes "sudo -u postgres psql -t -f /scripts/pgstat.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60 &
 
 # Stats remote
-#yes "sudo -u postgres psql -h primary -U replicator -t -f /scripts/pgstat.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60
-#yes "sudo -u postgres psql -h secondary -U replicator -t -f /scripts/pgstat.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60
+yes "psql postgresql://analytics:postgres@primary/postgres -t -f /scripts/pgstat.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60 &

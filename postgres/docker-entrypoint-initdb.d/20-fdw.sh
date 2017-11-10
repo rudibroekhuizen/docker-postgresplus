@@ -33,5 +33,4 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     application_name text
     ) SERVER pglog
     OPTIONS ( filename '/tmp/pglog.csv', format 'csv' );
-    GRANT SELECT ON pglog TO analytics;
 EOSQL
