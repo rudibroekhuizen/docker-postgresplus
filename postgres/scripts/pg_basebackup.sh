@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 pg_basebackup \
   --host=127.0.0.1 \
