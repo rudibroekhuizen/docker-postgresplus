@@ -37,12 +37,22 @@ services:
     extends:
       file: ./schemaspy/docker-compose.yml
       service: schemaspy
+    depends_on:
+      - postgres
+
+  schemaspy_nginx:
+    extends:
+      file: ./schemaspy/docker-compose.yml
+      service: schemaspy_nginx
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:
   pgadmin:
   pglog:
   esdata:
+  schemaspydata:
 
 networks:
   pgnet:
