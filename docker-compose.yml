@@ -33,6 +33,11 @@ services:
       file: ./pgadmin/docker-compose.yml
       service: pgadmin
 
+  schemaspy:
+    extends:
+      file: ./schemaspy/docker-compose.yml
+      service: schemaspy
+
 volumes:
   pgdata:
   pgadmin:
