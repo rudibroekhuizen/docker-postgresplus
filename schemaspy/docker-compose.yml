@@ -25,7 +25,8 @@ services:
 #   depends_on:
 #     - shared
     volumes:
-      - ./config:/config
+      - ./schemaspy.properties:/schemaspy.properties
+      - schemaspydata:/output
 #    environment:
 #      - LANG=ja_JP.UTF-8
 #      - TZ=Asia/Tokyo
@@ -33,6 +34,8 @@ services:
 #    command: "java -jar schemaspy.jar"
 #    env_file:
 #      - ./../env_file
-      
-#volumes:
-#  shared:
+
+
+
+volumes:
+  schemaspydata:
