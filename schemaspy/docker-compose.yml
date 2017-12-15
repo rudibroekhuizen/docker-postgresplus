@@ -20,13 +20,12 @@ services:
 
   schemaspy:
 #   build: .
-    image: schemaspy/schemaspy 
+    image: schemaspy/schemaspy:snapshot
 #   container_name: schemaspy
 #   depends_on:
 #     - shared
-#    volumes:
-#      - shared:/app/html:rw
-#      - ./schemaspy.properties:/app/schemaspy.properties:ro
+    volumes:
+      - ./config:/config
 #    environment:
 #      - LANG=ja_JP.UTF-8
 #      - TZ=Asia/Tokyo
