@@ -1,1 +1,1 @@
-Used some code from https://github.com/treetips/schemaspy-mysql
+With thanks to treetips https://github.com/treetips/schemaspy-mysql,
