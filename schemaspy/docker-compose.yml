@@ -23,8 +23,8 @@ services:
 #    environment:
 #      - LANG=ja_JP.UTF-8
 #      - TZ=Asia/Tokyo
-#    env_file:
-#      - ./../env_file
+    env_file:
+      - ./../env_file
     networks:
       - pgnet
 
