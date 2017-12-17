@@ -1,0 +1,9 @@
+# Schemaspy
+POSTGRES_DB=123
+
+# Postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+PGDATA=/pgdata
+REPLICATION_USER=replicator
+REPLICATION_PASSWORD=
