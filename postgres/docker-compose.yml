@@ -12,10 +12,10 @@ services:
 #    ports:
 #        - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - PGDATA=/pgdata
-      - REPLICATION_USER=replicator
-#      - REPLICATION_PASSWORD=
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=${PGDATA}
+      - REPLICATION_USER=${REPLICATION_USER}
+      - REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
     networks:
       - pgnet
