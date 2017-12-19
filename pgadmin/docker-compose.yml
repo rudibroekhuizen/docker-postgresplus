@@ -9,3 +9,6 @@ services:
       - 5050:5050
     networks:
       - pgnet
+    environment:
+      - DEFAULT_USER=postgres
+      - DEFAULT_PASSWORD=postgres
