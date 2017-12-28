@@ -4,7 +4,7 @@ services:
   postgres:
     build: ./
     volumes:
-      - pgdata:/pgdata
+      - pgdata:/var/lib/postgresql/data
       - pglog:/tmp
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./conf.d:/conf.d
@@ -14,7 +14,6 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - PGDATA=${PGDATA}
       - REPLICATION_USER=${REPLICATION_USER}
       - REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
     networks:
