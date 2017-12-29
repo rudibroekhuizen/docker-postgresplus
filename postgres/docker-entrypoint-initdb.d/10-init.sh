@@ -2,7 +2,7 @@
 set -e
 
 # Override settings
-echo "include_dir = '/conf.d'" >> /pgdata/postgresql.conf
+echo "include_dir = '/conf.d'" >> "$PGDATA/postgresql.conf"
 
 # Create pg_hba entry for replication
 echo "host replication $REPLICATION_USER 0.0.0.0/0 trust" >> "$PGDATA/pg_hba.conf"
