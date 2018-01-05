@@ -1,0 +1,27 @@
+filebeat.prospectors:
+- type: log
+  enabled: true
+  json.keys_under_root: true
+  paths:
+    - /log/*.json
+
+filebeat.config.modules:
+  enabled: true
+  path: ${path.config}/modules.d/*.yml
+
+output.elasticsearch:
+  hosts:
+    - elasticsearch.naturalis.nl:80
+  username: kibana
+  password: kibana
+  index: filebeat
+  pipeline: test_pipe
+
+setup.template:
+  name: "testbeat"
+  pattern: "testbeat-%{[beat.version]}-*"
+  overwrite: false
+  fields: "/template/template.yml"
+      #setup.kibana:
+      #  host: "kibana:5601"
+

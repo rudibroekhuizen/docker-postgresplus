@@ -1,61 +1,142 @@
-version: '2'
-
+version: '3'
 services:
+  
   elasticsearch:
-    extends:
-      file: ./elasticsearch/docker-compose.yml
-      service: elasticsearch
-
-  logstash:
-    extends:
-      file: ./logstash/docker-compose.yml
-      service: logstash
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.0
     volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - pglog:/mnt/data:rw
-    depends_on:
-      - elasticsearch
+    - elasticsearch_data:/usr/share/elasticsearch/data
+    environment:
+      # so support single node development
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - web
+      - default
+    labels:
+      - "traefik.backend=naturalis-elasticsearch"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=9200"
+      - ${ELASTICSEARCH_URL_CONFIG:-traefik.frontend.rule=Host:elasticsearch.naturalis.nl}
+      - ${ELASTICSEARCH_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
 
   kibana:
-    extends:
-      file: ./kibana/docker-compose.yml
-      service: kibana
-    depends_on:
-      - elasticsearch
+    image: docker.elastic.co/kibana/kibana-oss:6.1.0
+    expose:
+      - "5601"
+    networks:
+      - web
+      - default
+    labels:
+      - "traefik.backend=naturalis-kibana"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=5601"
+      - ${KIBANA_URL_CONFIG:-traefik.frontend.rule=Host:kib.naturalis.nl}
+      - ${KIBANA_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
+
+  grafana:
+    #image: grafana/grafana
+    image: grafana/grafana:master
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASS:-secret}
+    expose:
+      - "3000"
+    networks:
+      - web
+      - default
+    labels:
+      - "traefik.backend=naturalis-grafana"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:grafana.naturalis.nl}
+
+  traefik:
+    image: traefik:1.4.5
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${TRAEFIK_TOML_FILE:-./traefik/traefik.toml}:/traefik.toml
+      - ${ACME_JSON:-./traefik/acme.json}:/acme.json
+    container_name: traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - ${TRAEFIK_URL_CONFIG:-traefik.frontend.rule=Host:traefik.naturalis.nl}
 
   postgres:
-    extends:
-      file: ./postgres/docker-compose.yml
-      service: postgres
+    build: ./postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pglog:/tmp
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./postgres/conf.d:/conf.d
+      - ./postgres/scripts:/scripts
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REPLICATION_USER=${REPLICATION_USER}
+      - REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
+    networks:
+      - pgnet
 
-  pgadmin:
-    extends:
-      file: ./pgadmin/docker-compose.yml
-      service: pgadmin
-
-  schemaspy:
-    extends:
-      file: ./schemaspy/docker-compose.yml
-      service: schemaspy
+  logstash:
+    build: ./logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - pglog:/mnt/data:rw
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - default
     depends_on:
-      - postgres
-
-  schemaspy_nginx:
-    extends:
-      file: ./schemaspy/docker-compose.yml
-      service: schemaspy_nginx
-    depends_on:
-      - postgres
-
-volumes:
-  pgdata:
-  pgadmin:
-  pglog:
-  esdata:
-  schemaspydata:
+      - elasticsearch
 
 networks:
   pgnet:
+  web:
     external: true
-  esnet:
-    driver: bridge
+
+volumes:
+  elasticsearch_data:
+  grafana_data:
+  pgadmin_data:
+  pglog:
+  pgdata:
+  schemaspy_data:
+
+
+
+
+
+#filebeat should not run in this cluser since it won't every really be
+#
+# ====================================================================
+#  filebeat:
+#    image: docker.elastic.co/beats/filebeat:6.1.0
+#    network_mode: host
+#   #      - filebeat
+#        #    extra_hosts:
+#        #      - "insight-elasticsearch.naturalis.nl:127.0.0.1"
+#    volumes:
+#      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+#      - ./filebeat/modules.d:/usr/share/filebeat/modules.d
+#      - ./filebeat/module:/usr/share/filebeat/module
+#      - ./filebeat/log:/log
+#      - ./filebeat/template:/template
+
