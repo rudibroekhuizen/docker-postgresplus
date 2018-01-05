@@ -150,7 +150,7 @@ volumes:
   schemaspy_data:
   pglog:
   pgdata:
-  pgadmin
+  pgadmin:
 
 #filebeat should not run in this cluser since it won't every really be
 #
