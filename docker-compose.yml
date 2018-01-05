@@ -36,7 +36,7 @@ services:
       - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=5601"
-      - ${KIBANA_URL_CONFIG:-traefik.frontend.rule=Host:kib.naturalis.nl}
+      - ${KIBANA_URL_CONFIG:-traefik.frontend.rule=Host:kibana.naturalis.nl}
       - ${KIBANA_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
 
   grafana:
@@ -106,6 +106,25 @@ services:
       - default
     depends_on:
       - elasticsearch
+
+
+  schemaspy_nginx:
+    image: nginx:1.13.1-alpine
+    volumes:
+      - schemaspy_data:/var/www/html:ro
+      - ./schemaspy/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8081:80"
+    command: "nginx -g 'daemon off;'"
+
+  schemaspy:
+    image: schemaspy/schemaspy:snapshot
+    volumes:
+      - schemaspy_data:/output
+#     - ./schemaspy.properties:/schemaspy.properties
+    networks:
+      - pgnet
+    command: "-t pgsql -host ${POSTGRES_HOST} -port ${POSTGRES_PORT} -db ${POSTGRES_DB} -s ${POSTGRES_SCHEMA} -u ${POSTGRES_USER} -p ${POSTGRES_PASSWORD}"
 
 networks:
   pgnet:
