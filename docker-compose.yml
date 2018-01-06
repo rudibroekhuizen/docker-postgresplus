@@ -119,12 +119,11 @@ services:
     depends_on:
       - elasticsearch
 
-
   schemaspy_nginx:
     image: nginx:1.13.1-alpine
     volumes:
       - schemaspy_data:/var/www/html:ro
-      - ./schemaspy/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./schemaspy_nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "8081:80"
     command: "nginx -g 'daemon off;'"
