@@ -92,6 +92,11 @@ services:
     networks:
       - pgnet
 
+  psql:
+    build: ./psql
+    networks:
+      - pgnet
+
   pgadmin:
     build: ./pgadmin
     volumes:
