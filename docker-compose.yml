@@ -1,6 +1,24 @@
 version: '3'
 
 services:
+  traefik:
+    image: traefik:1.4.6
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${TRAEFIK_TOML_FILE:-./traefik/traefik.toml}:/traefik.toml
+      - ${ACME_JSON:-./traefik/acme.json}:/acme.json
+    container_name: traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - ${TRAEFIK_URL_CONFIG:-traefik.frontend.rule=Host:traefik.naturalis.nl}
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.0
     volumes:
@@ -23,6 +41,21 @@ services:
       - "traefik.port=9200"
       - ${ELASTICSEARCH_URL_CONFIG:-traefik.frontend.rule=Host:elasticsearch.naturalis.nl}
       - ${ELASTICSEARCH_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
+
+  logstash:
+    build: ./logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - pglog:/mnt/data:rw
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - default
+    depends_on:
+      - elasticsearch
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.1.0
@@ -59,24 +92,6 @@ services:
       - "traefik.enable=true"
       - "traefik.port=3000"
       - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:grafana.naturalis.nl}
-
-  traefik:
-    image: traefik:1.4.5
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - web
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${TRAEFIK_TOML_FILE:-./traefik/traefik.toml}:/traefik.toml
-      - ${ACME_JSON:-./traefik/acme.json}:/acme.json
-    container_name: traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.port=8080"
-      - ${TRAEFIK_URL_CONFIG:-traefik.frontend.rule=Host:traefik.naturalis.nl}
 
   postgres:
     build: ./postgres
@@ -119,21 +134,6 @@ services:
       - "traefik.enable=true"
       - "traefik.port=5050"
       - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.naturalis.nl}
-
-  logstash:
-    build: ./logstash
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - pglog:/mnt/data:rw
-    ports:
-      - "5000:5000"
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-    networks:
-      - default
-    depends_on:
-      - elasticsearch
 
   schemaspy_nginx:
     image: nginx:1.13.1-alpine
