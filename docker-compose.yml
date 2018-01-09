@@ -80,10 +80,8 @@ services:
     build: ./postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - pglog:/tmp
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/conf.d:/conf.d
-      - ./postgres/scripts:/scripts
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -94,8 +92,11 @@ services:
 
   psql:
     build: ./psql
+    volumes:
+      - pglog:/tmp
     networks:
       - pgnet
+#    tty: true
 
   pgadmin:
     build: ./pgadmin
