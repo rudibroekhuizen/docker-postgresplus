@@ -28,6 +28,8 @@ services:
     image: docker.elastic.co/kibana/kibana-oss:6.1.0
     expose:
       - "5601"
+    ports: # remove when using traefik only
+      - "5601:5601"
     networks:
       - web
       - default
@@ -96,19 +98,27 @@ services:
       - pglog:/tmp
     networks:
       - pgnet
-#    tty: true
 
   pgadmin:
     build: ./pgadmin
     volumes:
       - "pgadmin:/home/pgadmin"
+    expose:
+      - "5050"
     ports:
       - 5050:5050
     networks:
+      - web
       - pgnet
     environment:
       - DEFAULT_USER=${POSTGRES_USER}
       - DEFAULT_PASSWORD=${POSTGRES_PASSWORD}
+    labels:
+      - "traefik.backend=naturalis-pgadmin"
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=5050"
+      - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.naturalis.nl}
 
   logstash:
     build: ./logstash
