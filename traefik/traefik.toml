@@ -1,0 +1,20 @@
+debug = false
+checkNewVersion = true
+logLevel = "INFO"
+defaultEntryPoints = ["http"]
+
+[web]
+address = ":8080"
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "naturalis.nl"
+watch = true
+exposedbydefault = false
+

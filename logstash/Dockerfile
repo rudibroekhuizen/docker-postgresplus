@@ -1,5 +1,5 @@
 # https://github.com/elastic/logstash-docker
-FROM docker.elastic.co/logstash/logstash:5.5.2
+FROM docker.elastic.co/logstash/logstash-oss:6.1.1
 
 # Add your logstash plugins setup here
 #RUN logstash-plugin install logstash-filter-csv
