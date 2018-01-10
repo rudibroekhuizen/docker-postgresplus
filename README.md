@@ -14,7 +14,7 @@ docker-compose up
 
 ### Open pgAdmin webinterface
 ```bash
-http://localhost:5050
+http://pgadmin.docker.localhost/
 ```
 Database, username and password: postgres
 
