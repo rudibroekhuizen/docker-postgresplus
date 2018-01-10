@@ -14,7 +14,8 @@ address = ":8080"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "naturalis.nl"
+domain = "docker.localhost"
+#domain = "naturalis.nl"
 watch = true
 exposedbydefault = false
 
