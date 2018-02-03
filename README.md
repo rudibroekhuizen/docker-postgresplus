@@ -48,6 +48,11 @@ Database, username and password: postgres
 ### Import dashboard
 To make sure all fields exist prior to importing the Kibana dashboard, run pgbench first.
 
+### Grafana
+URL: http://elasticsearch:9200
+Access: proxy
+Index name: logstash- (daily pattern)
+Version: 5.x
 
 ### Useful commands
 ```bash
