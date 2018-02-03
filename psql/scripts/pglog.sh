@@ -2,7 +2,7 @@
 
 # Logging local
 #yes "sudo -u postgres psql -t -f /scripts/pglog.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60 & 
-yes "psql postgresql://analytics:postgres@postgres/postgres -t -f /usr/local/bin/pglog.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60
+yes "psql postgresql://analytics:postgres@postgres/postgres -t -f /usr/local/bin/analytics.sql | jq -c . >> /tmp/analytics.json" | parallel --jobs 1 --delay 60
 
 # Logging remote
 #yes "psql postgresql://analytics:postgres@primary/postgres -t -f /scripts/pglog.sql | jq -c . >> /tmp/pglog.json" | parallel --jobs 1 --delay 60 &
