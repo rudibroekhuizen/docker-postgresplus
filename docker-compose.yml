@@ -109,6 +109,7 @@ services:
       - REPLICATION_USER=${REPLICATION_USER}
       - REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
     networks:
+      - default # postgres datasource grafana
       - pgnet
 
   psql:
