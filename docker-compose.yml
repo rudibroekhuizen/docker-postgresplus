@@ -170,6 +170,7 @@ services:
 
 networks:
   pgnet:
+    external: true
   web:
     external: true
 
