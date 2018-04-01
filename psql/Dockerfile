@@ -7,4 +7,4 @@ COPY scripts /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/pglog.sh
 
-CMD ["pglog.sh"]
+CMD ["analytics.sh"]
