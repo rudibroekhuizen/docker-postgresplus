@@ -5,6 +5,6 @@ RUN  apk add --update postgresql-client jq parallel\
 
 COPY scripts /usr/local/bin/
 
-RUN chmod +x /usr/local/bin/pglog.sh
+RUN chmod +x /usr/local/bin/analytics.sh
 
 CMD ["analytics.sh"]
