@@ -4,6 +4,11 @@ from (
 SELECT *, 'pg_log' as tag FROM pglog WHERE log_time > current_timestamp - interval '1 minutes'
 ) t;
 
+SELECT row_to_json(t)
+from (
+SELECT *, 'pg_stat_database' as tag FROM pg_stat_database
+) t;
+
 -- Show WAL archiver status
 SELECT row_to_json(t)
 from (
