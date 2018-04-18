@@ -75,7 +75,7 @@ $ echo 'vm.max_map_count=262144' >> /etc/sysctl.conf
 ```
 
 
-
+![postgres](diagram.png?raw=true)
 
 ![postgres](postgres_1.png?raw=true)
 
