@@ -173,6 +173,16 @@ services:
       - pgnet
     command: "-t pgsql -host ${POSTGRES_HOST} -port ${POSTGRES_PORT} -db ${POSTGRES_DB} -s ${POSTGRES_SCHEMA} -u ${POSTGRES_USER} -p ${POSTGRES_PASSWORD}"
 
+  sqlpad:
+    image: 'sqlpad/sqlpad:latest'
+    hostname: 'sqlpad'
+    ports:
+      - '3030:3000'
+    environment:
+      - SQLPAD_DEBUG=TRUE
+    volumes:
+      - sqlpad:/var/lib/sqlpad
+
 networks:
   pgnet:
     external: true
@@ -187,7 +197,7 @@ volumes:
   pglog:
   pgdata:
   pgadmin:
-
+  sqlpad:
 #filebeat should not run in this cluser since it won't every really be
 #
 # ====================================================================
