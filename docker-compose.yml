@@ -203,19 +203,3 @@ volumes:
   pgadmin:
   sqlpad:
 
-#filebeat should not run in this cluser since it won't every really be
-#
-# ====================================================================
-#  filebeat:
-#    image: docker.elastic.co/beats/filebeat:6.1.0
-#    network_mode: host
-#   #      - filebeat
-#        #    extra_hosts:
-#        #      - "insight-elasticsearch.naturalis.nl:127.0.0.1"
-#    volumes:
-#      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-#      - ./filebeat/modules.d:/usr/share/filebeat/modules.d
-#      - ./filebeat/module:/usr/share/filebeat/module
-#      - ./filebeat/log:/log
-#      - ./filebeat/template:/template
-
