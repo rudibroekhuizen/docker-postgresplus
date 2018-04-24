@@ -84,6 +84,8 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASS:-secret}
+    ports: # remove when using traefik only
+      - "3000:3000"
     expose:
       - "3000"
     networks:
