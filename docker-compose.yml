@@ -78,8 +78,7 @@ services:
       - ${KIBANA_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
 
   grafana:
-    #image: grafana/grafana
-    image: grafana/grafana:master
+    image: grafana/grafana:5.1.2
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
