@@ -21,6 +21,7 @@ Database, username and password: postgres
 ### Connect to Postgres container
      docker exec -it dockerpostgresplus_postgres_1 sh (or docker-compose exec postgres sh)
      su
+     docker-compose exec postgres psql -U postgres
 
 ### Download and unzip test database (in the container)
      wget https://s3.amazonaws.com/assets.datacamp.com/course/sql/dvdrental.zip; unzip dvdrental.zip
