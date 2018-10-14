@@ -128,19 +128,19 @@ services:
       - pgnet
 
   pgadmin:
-    build: ./pgadmin
-    volumes:
-      - "pgadmin:/home/pgadmin"
+    image: dpage/pgadmin4:3.3
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     expose:
-      - "5050"
+      - "80"
     ports:
-      - 5050:5050
+      - "5050:5050"
     networks:
       - web
       - pgnet
-    environment:
-      - DEFAULT_USER=${POSTGRES_USER}
-      - DEFAULT_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./pgadmin:/root/.pgadmin
     labels:
       - "traefik.backend=naturalis-pgadmin"
       - "traefik.docker.network=web"
@@ -201,4 +201,3 @@ volumes:
   pgdata:
   pgadmin:
   sqlpad:
-
