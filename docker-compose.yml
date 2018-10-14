@@ -135,7 +135,7 @@ services:
     expose:
       - "80"
     ports:
-      - "5050:5050"
+      - "5050:80"
     networks:
       - web
       - pgnet
@@ -145,7 +145,7 @@ services:
       - "traefik.backend=naturalis-pgadmin"
       - "traefik.docker.network=web"
       - "traefik.enable=true"
-      - "traefik.port=5050"
+      - "traefik.port=80"
       - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.docker.localhost}
 #     - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.naturalis.nl}
 
