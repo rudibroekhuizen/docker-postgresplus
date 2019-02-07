@@ -78,7 +78,6 @@ services:
       - ${KIBANA_AUTH:-traefik.frontend.auth.basic=kibana:$apr1$.lcgllId$9sUY3fPk/gDuh3NQ55024/}
 
   grafana:
-    shm_size: 256M
     image: grafana/grafana:5.3.0
     volumes:
       - grafana_data:/var/lib/grafana
@@ -100,6 +99,7 @@ services:
 #     - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:grafana.naturalis.nl}
 
   postgres:
+    shm_size: 256M
     build: ./postgres
     ports:
       - "5432:5432"
