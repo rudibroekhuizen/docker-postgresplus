@@ -129,7 +129,7 @@ services:
       - pgnet
 
   pgadmin:
-    image: dpage/pgadmin4:3.3
+    image: dpage/pgadmin4:4
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
