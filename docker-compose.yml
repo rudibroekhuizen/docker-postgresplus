@@ -100,13 +100,13 @@ services:
 
   postgres:
     shm_size: 256M
-    build: ./postgres
+    image: timescale/timescaledb:latest-pg12
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./postgres/conf.d:/conf.d
+#      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+#      - ./postgres/conf.d:/conf.d
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -129,7 +129,7 @@ services:
       - pgnet
 
   pgadmin:
-    image: dpage/pgadmin4:4
+    image: dpage/pgadmin4:4.20
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
