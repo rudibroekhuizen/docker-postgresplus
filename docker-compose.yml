@@ -3,12 +3,10 @@ version: '3.8'
 services:
   traefik:
     image: traefik:v2.4
-    container_name: traefik
     command: 
       - "--api.insecure=true"
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-#      - "--entrypoints.websecure.address=:443"
     ports:
       - 80:80
 #      - 8080:8080
@@ -20,10 +18,6 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.6.1
-#    ports:
-#      - "9200:9200"
-#    expose: 
-#      - "9200"  
     environment:
       - http.host=0.0.0.0
       - transport.host= 127.0.0.1
@@ -52,10 +46,6 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:7.6.1
-#    expose:
-#      - "5601"
-#   ports: # remove when using traefik only
-#     - "5601:5601"
     networks:
       - backend
     labels:
@@ -80,7 +70,7 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_USERS_ALLOW_SIGN_UP=false
     labels:
-      - "traefik.backend=kibana"
+      - "traefik.backend=grafana"
       - "traefik.port=5601"
       - "traefik.http.routers.grafana.rule=Host(`grafana.docker.localhost`)"
 
@@ -145,7 +135,7 @@ services:
       - backend
     command: "nginx -g 'daemon off;'"
     labels:
-      - "traefik.backend=kibana"
+      - "traefik.backend=schemaspy"
       - "traefik.docker.network=backend"
       - "traefik.port=80"
       - "traefik.http.routers.schemaspy.rule=Host(`schemaspy.docker.localhost`)"
