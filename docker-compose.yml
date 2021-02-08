@@ -176,10 +176,10 @@ services:
       - sqlpad:/var/lib/sqlpad
 
 networks:
-  pgnet:
-    external: true
   web:
-    external: true
+    internal: false
+  backend:
+    internal: false
 
 volumes:
   elasticsearch_data:
