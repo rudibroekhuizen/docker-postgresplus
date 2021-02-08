@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   traefik:
@@ -8,7 +8,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+#      - "--entrypoints.websecure.address=:443"
     ports:
       - 80:80
 #      - 8080:8080
@@ -20,10 +20,10 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.6.1
-    ports:
-      - "9200:9200"
-    expose: 
-      - "9200"  
+#    ports:
+#      - "9200:9200"
+#    expose: 
+#      - "9200"  
     environment:
       - http.host=0.0.0.0
       - transport.host= 127.0.0.1
@@ -41,8 +41,8 @@ services:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
       - pglog:/mnt/data:rw
-    ports:
-      - "5000"
+#    ports:
+#      - "5000"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -52,8 +52,8 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:7.6.1
-    expose:
-      - "5601"
+#    expose:
+#      - "5601"
 #   ports: # remove when using traefik only
 #     - "5601:5601"
     networks:
@@ -61,12 +61,12 @@ services:
     labels:
       - "traefik.backend=kibana"
       - "traefik.port=5601"
-      - "traefik.http.routers.blog.rule=Host(`kibana.docker.localhost`)"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.docker.localhost`)"
 
   grafana:
     image: grafana/grafana:7.3.2
-    ports:
-      - "3000:3000"
+#    ports:
+#      - "3000:3000"
     networks:
       - backend
     volumes:
@@ -82,7 +82,7 @@ services:
     labels:
       - "traefik.backend=kibana"
       - "traefik.port=5601"
-      - "traefik.http.routers.blog.rule=Host(`kibana.docker.localhost`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.docker.localhost`)"
 
   postgres:
     shm_size: 256M
@@ -145,12 +145,10 @@ services:
       - backend
     command: "nginx -g 'daemon off;'"
     labels:
-      - "traefik.backend=naturalis-schemaspy"
-      - "traefik.docker.network=web"
-      - "traefik.enable=true"
+      - "traefik.backend=kibana"
+      - "traefik.docker.network=backend"
       - "traefik.port=80"
-      - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:schemaspy.docker.localhost}
-#     - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:schemaspy.naturalis.nl}
+      - "traefik.http.routers.schemaspy.rule=Host(`schemaspy.docker.localhost`)"
 
   schemaspy:
     image: schemaspy/schemaspy:snapshot
