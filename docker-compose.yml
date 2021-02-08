@@ -2,23 +2,21 @@ version: '3'
 
 services:
   traefik:
-    image: traefik:1.4.6
-#   restart: always
+    image: traefik:v2.4
+    container_name: traefik
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
     ports:
       - 80:80
-      - 443:443
+#      - 8080:8080
     networks:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${TRAEFIK_TOML_FILE:-./traefik/traefik.toml}:/traefik.toml
-      - ${ACME_JSON:-./traefik/acme.json}:/acme.json
-    container_name: traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.port=8080"
-      - ${TRAEFIK_URL_CONFIG:-traefik.frontend.rule=Host:traefik.docker.localhost}
-#     - ${TRAEFIK_URL_CONFIG:-traefik.frontend.rule=Host:traefik.naturalis.nl}
+
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.2.0
