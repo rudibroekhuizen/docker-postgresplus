@@ -51,7 +51,7 @@ services:
       - elasticsearch
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-oss:7.2.0
+    image: docker.elastic.co/kibana/kibana-oss:7.6.1
     expose:
       - "5601"
 #   ports: # remove when using traefik only
@@ -65,25 +65,26 @@ services:
       - "traefik.http.routers.blog.rule=Host(`kibana.docker.localhost`)"
 
   grafana:
-    image: grafana/grafana:6.2.5
-    volumes:
-      - grafana_data:/var/lib/grafana
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASS:-secret}
-    ports: # remove when using traefik only
+    image: grafana/grafana:7.3.2
+    ports:
       - "3000:3000"
-    expose:
-      - "3000"
     networks:
       - web
       - default
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_INSTALL_PLUGINS=${GRAFANA_INSTALL_PLUGINS}
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_USERS_ALLOW_SIGN_UP=false
     labels:
-      - "traefik.backend=naturalis-grafana"
-      - "traefik.docker.network=web"
-      - "traefik.enable=true"
-      - "traefik.port=3000"
-      - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:grafana.docker.localhost}
-#     - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:grafana.naturalis.nl}
+      - "traefik.backend=kibana"
+      - "traefik.port=5601"
+      - "traefik.http.routers.blog.rule=Host(`kibana.docker.localhost`)"
 
   postgres:
     shm_size: 256M
