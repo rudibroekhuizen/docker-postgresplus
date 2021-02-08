@@ -117,12 +117,9 @@ services:
     volumes:
       - ./pgadmin:/root/.pgadmin
     labels:
-      - "traefik.backend=naturalis-pgadmin"
-      - "traefik.docker.network=web"
-      - "traefik.enable=true"
+      - "traefik.backend=pgadmin"
       - "traefik.port=80"
-      - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.docker.localhost}
-#     - ${GRAFANA_URL_CONFIG:-traefik.frontend.rule=Host:pgadmin.naturalis.nl}
+      - "traefik.http.routers.pgadmin.rule=Host(`pgadmin.docker.localhost`)"
 
   schemaspy_nginx:
     image: nginx:1.13.1-alpine
