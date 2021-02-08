@@ -14,6 +14,7 @@ services:
 #      - 8080:8080
     networks:
       - web
+      - backend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -30,8 +31,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
     networks:
-      - web
-      - default
+      - backend
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
 
@@ -46,7 +46,7 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
-      - default
+      - backend
     depends_on:
       - elasticsearch
 
@@ -57,8 +57,7 @@ services:
 #   ports: # remove when using traefik only
 #     - "5601:5601"
     networks:
-      - web
-      - default
+      - backend
     labels:
       - "traefik.backend=kibana"
       - "traefik.port=5601"
@@ -69,8 +68,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - web
-      - default
+      - backend
     volumes:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/provisioning:/etc/grafana/provisioning
@@ -101,8 +99,7 @@ services:
       - REPLICATION_USER=${REPLICATION_USER}
       - REPLICATION_PASSWORD=${REPLICATION_PASSWORD}
     networks:
-      - default # postgres datasource grafana
-      - pgnet
+      - backend
 
   psql:
     build: ./psql
@@ -114,7 +111,7 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
-      - pgnet
+      - backend
 
   pgadmin:
     image: dpage/pgadmin4:4
@@ -126,8 +123,7 @@ services:
     ports:
       - "5050:80"
     networks:
-      - web
-      - pgnet
+      - backend
     volumes:
       - ./pgadmin:/root/.pgadmin
     labels:
@@ -146,7 +142,7 @@ services:
     expose:
       - "80"
     networks:
-      - web
+      - backend
     command: "nginx -g 'daemon off;'"
     labels:
       - "traefik.backend=naturalis-schemaspy"
@@ -162,7 +158,7 @@ services:
       - schemaspy_data:/output
 #     - ./schemaspy.properties:/schemaspy.properties
     networks:
-      - pgnet
+      - backend
     command: "-t pgsql -host ${POSTGRES_HOST} -port ${POSTGRES_PORT} -db ${POSTGRES_DB} -s ${POSTGRES_SCHEMA} -u ${POSTGRES_USER} -p ${POSTGRES_PASSWORD}"
 
   sqlpad:
@@ -170,6 +166,8 @@ services:
     hostname: 'sqlpad'
     ports:
       - '3030:3000'
+    networks:
+      - backend
     environment:
       - SQLPAD_DEBUG=TRUE
     volumes:
