@@ -115,7 +115,7 @@ services:
     networks:
       - backend
     volumes:
-      - ./pgadmin:/root/.pgadmin
+      - ./pgadmin:/var/lib/pgadmin/storage/pgadmin_naturalis.nl
     labels:
       - "traefik.backend=pgadmin"
       - "traefik.port=80"
