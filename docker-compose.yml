@@ -104,7 +104,7 @@ services:
       - backend
 
   pgadmin:
-    image: dpage/pgadmin4:4
+    image: dpage/pgadmin4:4.30
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
