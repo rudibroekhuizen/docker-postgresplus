@@ -105,6 +105,8 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:4.30
+    volumes:
+      - 
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
