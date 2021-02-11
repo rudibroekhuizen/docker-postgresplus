@@ -4,7 +4,7 @@ datasources:
   - name: PostgreSQL
     type: postgres
     url: postgres
-    database: db1
+    database: postgres
     user: postgres
     isDefault: true
     secureJsonData:
