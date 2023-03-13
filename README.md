@@ -5,10 +5,9 @@
 PostgreSQL playground running on Docker with logs presented in Kibana dashboard and Pgadmin webinterface.
 
 ## Usage
-Install Docker. Clone this repo to your local machine. Create network, to be able to run more postgres instances on the same network. Run docker-compose up.
+Install docker and docker-compose. Clone this repo to your local machine. Than start the containers:
 
 ```bash
-docker network create pgnet
 docker-compose up
 ```
 
